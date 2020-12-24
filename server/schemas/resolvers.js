@@ -15,14 +15,19 @@ const resolvers = {
             throw new AuthenticationError("login error...");
         },
         getSingleUser: async (parent, { username }) => {
-            return User.findOne({ username })
-            .select('-__v -password')
-            .populate('savedBooks');
+            return User.findOne({ username });
+            // .select('-__v -password');
+            // .populate('savedBooks');
+        },
+        // get all users
+        users: async () => {
+            return User.find();
         }
     },
 
     Mutation: {
         createUser: async (parent, args) => {
+            console.log("create user Mutation");
             const user = await User.create(args);
             const token = signToken(user);
 
@@ -46,30 +51,28 @@ const resolvers = {
             return { token, user };
         },
 
-        saveBook: async (parent, { user,  body }) => {
-            console.log(user);
-            try {
+        saveBook: async (parent, { input }, context) => {
+            if(context.user) {
                 const updatedUser = await User.findOneAndUpdate(
-                    { _id: user._id },
-                    { $addToSet: { savedBooks: body } },
+                    { _id: context.user._id },
+                    { $addToSet: { savedBooks: input } },
                     { new: true, runValidators: true }
                 );
+                console.log("book added...");
                 return updatedUser;
-            } catch (err) {
-                console.log(err);
-                return res.status(400).json(err);
             }
+            throw new AuthenticationError("You must be logged in...");
         },
 
-        deleteBook: async (parent, { user, params }, context) => {
+        deleteBook: async (parent, param, context) => {
             if (context.user) {
-                await User.findOneAndUpdate(
-                    { _id: user._id },
-                    { $pull: { savedBooks:  { bookId: params.bookId } } },
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { savedBooks:  { _id: param } } },
                     { new: true }
-                ).populate('savedBooks');
+                );
                 console.log("book removed...");
-                return user;
+                return updatedUser;
             }
             throw new AuthenticationError('login error...please check your credentials');
         }
