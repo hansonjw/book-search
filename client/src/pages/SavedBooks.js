@@ -14,7 +14,7 @@ import Auth from '../utils/auth';
 const SavedBooks = () => {
   // const [userData, setUserData] = useState({});
   const { data: userData } = useQuery(QUERY_ME);
-  const [deleteBook, { error } ] = useMutation(DELETE_BOOK);
+  const [deleteBook] = useMutation(DELETE_BOOK);
 
 
   // ### A Test
