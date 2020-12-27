@@ -19,7 +19,8 @@ Assignment 21...refactor book search application with Apollo and GraphQL
 There are no installation instructions for this application.  Please either clone the repository or launch the website:
 
 ## How-To
-TBD
+Access the deployed application at the following URL:
+https://ucbjh-book-search.herokuapp.com/
 
 ## Contribute
 This code was submitted for class in the UC Berkeley Coding Bootcamp, July 2020 cohort
@@ -92,7 +93,7 @@ Additionally, you’ll need to complete the following tasks in each of these fro
 - (X) SearchBooks.js:
     - Use the Apollo useMutation() Hook to execute the SAVE_BOOK mutation in the handleSaveBook() function instead of the saveBook() function imported from the API file.
     - Make sure you keep the logic for saving the book's ID to state in the try...catch block!
-- SavedBooks.js:
+- (X) SavedBooks.js:
     - (X) Remove the useEffect() Hook that sets the state for UserData.
     - (X) Instead, use the useQuery() Hook to execute the GET_ME query on load and save it to a variable named userData.
     - (X) Use the useMutation() Hook to execute the REMOVE_BOOK mutation in the handleDeleteBook() function instead of the deleteBook() function that's imported from API file. (Make sure you keep the removeBookId() function in place!)
