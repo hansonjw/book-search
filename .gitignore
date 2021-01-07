@@ -1,2 +1,5 @@
-original-code/
-node_modules
+/original-code
+/node_modules
+npm-debug.log
+.DS_Store
+/*.env
